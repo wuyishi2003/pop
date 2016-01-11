@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<title>学习Jquery插件做的消息提示框</title>
+<link rel="stylesheet" type="text/css" href="ymcUI/css/ymcUI.css">
+
+</head>
+
+<body bgcolor="#333333">
+
+	<div style="position: relative;top:200px;left:200px">
+		<button id="info" class="flatbtn" onClick="ymcUI_Notify('good','正确');">正确</button>
+		<button id="warn" class="flatbtn" onClick="ymcUI_Notify('bad','错误');">错误</button>
+	</div>
+	
+	<script type="text/javascript" src="ymcUI/jquery-2.0.min.js"></script>
+	<script type="text/javascript" src="ymcUI/plugins/jquery.notify.js"></script>
+	<script type="text/javascript">
+		
+		function ymcUI_Notify(status, title) {
+			var ran = new Date().getTime();
+			var top = ran % 300 + 100;
+			var left = ran % 500 + 100;
+			var position = {//获取随机位置
+				left : left,
+				top : top
+			};
+
+			$.notify({
+				modal : false,//是否模态
+				status : status,//目前只做了两个状态，成功失败
+				title : title,//
+				position:position,//根据时间算出的随机位置
+				autoDelayClose:false,//是否自动关闭
+				timeout:3000,//3s后自动关闭，点击提示框也可以手动关闭
+				content : "这两天深圳的天气好凉爽啊"
+			});
+		}
+	</script>
+</body>
+</html>
