@@ -138,7 +138,7 @@
 	};
 	
 	
-		
+		 
 		
 	$.notify.defaults = {
 		//操作的状态目前只有good,bad两种状态
