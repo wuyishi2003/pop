@@ -4,6 +4,9 @@
 	var idMask = "_ymc_mask";
 	//在当前页面记录第几个弹出框
 	var idx = 0;
+	 
+	var _hang = 1;
+	var _lie = 1;
 	/**
 	 * 关闭提示窗口，关闭定时器
 	 * */
@@ -33,7 +36,7 @@
 		msgHtml += "<div class='" + _class + "' id=\""+idNotify+idx+"\">";
 		msgHtml += 		"<h1>" + options.title+ "</h1>";
 		msgHtml += 		"<span class='alerticon'>";
-		msgHtml += 			"<img src='" + _img + "'/>";
+		//msgHtml += 			"<img src='" + _img + "'/>";
 		msgHtml += 		"</span>";
 		msgHtml += 		"<p>" + options.content+ "</p>";
 		msgHtml += "</div>";
@@ -46,6 +49,9 @@
 		}else{
 			$(msgHtml).appendTo("body");
 		}
+		
+		//获取div的大小以及position
+	
 		//超时执行关闭提示框
 		var timer = null;
 		if(options.autoDelayClose){
@@ -80,6 +86,7 @@
 				}
 			});
 		}
+		
 		if(options.autoDelayClose){
 			var index = idx;
 			$('#'+idNotify+idx).on('mouseenter', function() {//鼠标进入时取消超时关闭
@@ -96,11 +103,43 @@
 			options.position.left = $(document).width() / 2.8;
 		}
 		$('#'+idNotify+idx).css(options.position)
-						.css("width", options.minWidth)
-						.css("height", "auto")
+						.css("width", options._width)
+						.css("height", options._height)
 						//保证提示框在遮罩层的上面
 						.css("zIndex",parseInt($('#'+idMask+idx).css("zIndex"))+1);
+		//console.log("idx"+idx);	
+ 		var _left = $(document.body).width() - _hang*options._width;
+ 		var _top = $(document).height()  - _lie* options._height;
+ 		yipai= parseInt( $(document).height()/ options._height );
+		//console.log("_lie"+_lie);
+ 		//console.log("yipai"+yipai);
+		//console.log("idx % yipai"+ idx % yipai);
+		//console.log("Math.ceil((idx/yipai) )"+Math.ceil((idx/yipai) ));
+ 		_lie++;
+		if(idx % yipai==0){
+			_lie = 1;
+			_hang++;
+			//var _top = $(document).height()  -   (500);
+			//var _left = $(document.body).width() -Math.ceil((idx/yipai) )* 300;
+		}
+		
+		//console.log("_top"+_top);
+		//console.log("_left"+_left);
+		 
+		 var   position	={
+				top   : _top,
+				left :  _left
+			}
+			
+			
+		$('#'+idNotify+idx).css(position)	 ;		
+						
+	
 	};
+	
+	
+		
+		
 	$.notify.defaults = {
 		//操作的状态目前只有good,bad两种状态
 		status : 'good',
@@ -115,6 +154,9 @@
 		},
 		//最小宽度
 		minWidth : "500px",
+		//\
+		_width :500,
+		_height: 300,
 		//模态
 		modal : false,
 		//延时关闭的的超时时间

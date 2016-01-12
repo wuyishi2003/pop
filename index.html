@@ -18,23 +18,24 @@
 	<script type="text/javascript" src="ymcUI/plugins/jquery.notify.js"></script>
 	<script type="text/javascript">
 		
+		
+		
+		
+		
+		
 		function ymcUI_Notify(status, title) {
-			var ran = new Date().getTime();
-			var top = ran % 300 + 100;
-			var left = ran % 500 + 100;
-			var position = {//获取随机位置
-				left : left,
-				top : top
-			};
+			 
 
 			$.notify({
 				modal : false,//是否模态
 				status : status,//目前只做了两个状态，成功失败
 				title : title,//
-				position:position,//根据时间算出的随机位置
+				//position:position,//根据时间算出的随机位置
 				autoDelayClose:false,//是否自动关闭
+				_width:200,
+				_height:500,
 				timeout:3000,//3s后自动关闭，点击提示框也可以手动关闭
-				content : "这两天深圳的天气好凉爽啊"
+				content : "content"
 			});
 		}
 	</script>
