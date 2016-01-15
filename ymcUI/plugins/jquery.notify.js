@@ -21,6 +21,29 @@
 			});
 		}
 	}
+	
+	function reposition(w,h){
+ 	 num =0
+	 zong = $(".notify").length;
+	 yihang =1;
+	 yilie = 1 ;
+	$(".notify").each(function(){
+		 num++
+		 var l = $(document.body).width() - yihang*w;
+ 		 var t = $(document).height()  - yilie*h;
+		 yilie++;
+		if(num % yipai==0){
+			yilie = 1;
+			yihang++;
+		}
+		 var   position	={
+				top   : t,
+				left :  l
+			}
+		$(this).css(position)	 ;
+		 
+  	  });	
+ 	}
 	$.notify = function(options) {
 		idx++;//记录弹出的提示框个数
 		options = options || {};
@@ -38,7 +61,7 @@
 		msgHtml += 		"<span class='alerticon'>";
 		//msgHtml += 			"<img src='" + _img + "'/>";
 		msgHtml += 		"</span>";
-		msgHtml += 		"<p>" + options.content+ "</p>";
+		msgHtml += 		"<p>" + options.content+ idx + "</p>";
 		msgHtml += "</div>";
 		
 		if(options.modal){//需要模态效果
@@ -63,27 +86,34 @@
 		//click事件关闭提示框
 		if (options.modal) {
 			$('#'+idNotify+idx).on('click', function() {
+				
 				if(options.autoDelayClose){//支持延时自动关闭的话，清空超时器
 					clearTimeout(timer);
 				}
-				$(this).fadeOut(350, function() {
+ 				$(this).fadeOut(350, function() {
 					$(this).remove();//先删除最前面的提示框
 					$("#"+idMask+idx).fadeOut(350, function() {//再删除提供模态效果的遮罩层
 						$(this).remove();
-					});
+									 
+ 					});
 				});
+				reposition(options._width,options._height);
 			});
 		}else{
 			$('#'+idNotify+idx).on('click', function() {
 				if(options.autoDelayClose){//支持延时自动关闭的话，清空超时器
 					clearTimeout(timer);
 				}
+				
 				$(this).fadeOut(550, function() {//删除提示框
 					$(this).remove();
+					reposition(options._width,options._height);
 				});
 				if(options.autoDelayClose){//清空超时器
 					clearTimeout(timer);
 				}
+				
+				
 			});
 		}
 		
@@ -132,13 +162,15 @@
 			}
 			
 			
-		$('#'+idNotify+idx).css(position)	 ;		
+		$('#'+idNotify+idx).css(position)	 ;	
+		
+								
 						
 	
 	};
 	
 	
-		 
+	 				
 		
 	$.notify.defaults = {
 		//操作的状态目前只有good,bad两种状态
@@ -156,7 +188,7 @@
 		minWidth : "500px",
 		//\
 		_width :500,
-		_height: 300,
+		_height: 900,
 		//模态
 		modal : false,
 		//延时关闭的的超时时间
